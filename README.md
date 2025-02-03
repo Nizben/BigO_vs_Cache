@@ -1,2 +1,3 @@
 # BigO_vs_Cache
-Benchmarking C++ algos to showcase Cache vs Big O importance
+
+Big O notation is the standard way to talk about algorithm efficiency, describing how an algorithm's runtime grows with input size. However, real-world performance is often influenced by factors beyond asymptotic complexity. In this post, we explore how modern CPU cache architectures affect algorithm speed, sometimes even allowing an algorithm with a higher Big O complexity to outperform a theoretically “better” one.
