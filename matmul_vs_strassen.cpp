@@ -113,43 +113,46 @@ std::vector<std::vector<int>> strassen_multiply(const std::vector<std::vector<in
     return C;
 }
 
-int main() {
-    size_t N = 128; // Use powers of 2 for simplicity (e.g., 256, 512, 1024)
-    std::cout << "Generating two " << N << "x" << N << " matrices...\\n";
+int main(int argc, char* argv[]) {
+    size_t N = 128;
+    if (argc > 1) {
+        N = std::stoul(argv[1]);
+    }
+    std::cout << "Generating two " << N << "x" << N << " matrices..." << std::endl;
     auto A = generate_matrix(N);
     auto B = generate_matrix(N);
 
     // Benchmark Naive Multiplication
-    std::cout << "Starting naive matrix multiplication...\\n";
+    std::cout << "Starting naive matrix multiplication..." << std::endl;
     auto start = std::chrono::high_resolution_clock::now();
     auto C_naive = naive_multiply(A, B);
     auto end = std::chrono::high_resolution_clock::now();
     auto duration_naive = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    std::cout << "Naive Multiplication Time: " << duration_naive << " ms.\\n";
+    std::cout << "Naive Multiplication Time: " << duration_naive << " ms." << std::endl;
 
     // Benchmark Strassen's Multiplication
-    std::cout << "Starting Strassen's matrix multiplication...\\n";
+    std::cout << "Starting Strassen's matrix multiplication..." << std::endl;
     start = std::chrono::high_resolution_clock::now();
     auto C_strassen = strassen_multiply(A, B);
     end = std::chrono::high_resolution_clock::now();
     auto duration_strassen = std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count();
-    std::cout << "Strassen's Multiplication Time: " << duration_strassen << " ms.\\n";
+    std::cout << "Strassen's Multiplication Time: " << duration_strassen << " ms." << std::endl;
 
-    // Optional: Verify that both methods produce the same result
+    // Verify that both methods produce the same result
     bool correct = true;
     for (size_t i = 0; i < N && correct; ++i) {
         for (size_t j = 0; j < N && correct; ++j) {
             if (C_naive[i][j] != C_strassen[i][j]) {
                 correct = false;
                 std::cout << "Mismatch at (" << i << ", " << j << "): "
-                          << C_naive[i][j] << " vs " << C_strassen[i][j] << "\\n";
+                          << C_naive[i][j] << " vs " << C_strassen[i][j] << std::endl;
             }
         }
     }
     if (correct) {
-        std::cout << "Both multiplication methods produced the same result.\\n";
+        std::cout << "Both multiplication methods produced the same result." << std::endl;
     } else {
-        std::cout << "Discrepancy found between multiplication methods!\\n";
+        std::cout << "Discrepancy found between multiplication methods!" << std::endl;
     }
 
     return 0;
